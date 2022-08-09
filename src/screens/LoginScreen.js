@@ -3,21 +3,27 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { AuthContext } from "../context/AuthContext";
 
-const LoginScreen = () => {
+const LoginScreen = ({ route, navigation }) => {
     const [username, setUsername] =useState(null);
     const [password, setPassword] =useState(null);
 
-    const {isLoading, login} = useContext(AuthContext);
+    const {
+        isLoading,
+        login,
+        errorLogin
+    } = useContext(AuthContext);
+
+    const { usernameNfc } = route.params;
 
     return (
         <View style= {styles.container}>
             <Spinner visible={isLoading}/>
             <View style={styles.wrapper}>
-                <TextInput 
+                {/*<TextInput 
                 style = {styles.input} 
                 value= {username}
                 placeholder=" Enter username"
-                onChangeText={text => setUsername(text)}/> 
+                onChangeText={text => setUsername(text)}/> */}
 
                 <TextInput 
                 style = {styles.input}
@@ -30,7 +36,9 @@ const LoginScreen = () => {
                 styleText ={styles.baseText} 
                 title="Login"
                 color="#BDB76B"
-                onPress={() => {login(username, password)}}/>
+                onPress={() => {login(usernameNfc, password)}}/>
+
+                {errorLogin && <Text  style = {styles.msgErreur}>{errorLogin} </Text>}
                
             </View>
         </View>
@@ -41,10 +49,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: 'gray'
     },
     wrapper :{
         width: '80%',
-
     },
     input : {
         marginBottom: 12,
@@ -52,10 +60,14 @@ const styles = StyleSheet.create({
         borderColor: '#bbb',
         borderRadius: 5,
         paddingHorizontal: 14,
+        color: 'green'
     },
     baseText :{
         fontWeight: 'bold',
-      }
+      },
+      msgErreur :{
+        color: 'red',
+    }
 });
 
 export default LoginScreen;

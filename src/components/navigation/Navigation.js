@@ -9,6 +9,7 @@ import LoginScreen from '../../screens/LoginScreen'
 import HomeScreen from '../../screens/HomeScreen'
 import { AuthContext } from "../../context/AuthContext";
 import SplashScreen from "../../screens/SplashScreen";
+import NfcScreen from "../../screens/NfcScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,11 @@ const Navigation = () => {
                       <Stack.Screen name="Home" component = {HomeScreen} />
                 ) : (
                     <>
+                    <Stack.Screen 
+                            name="TagNFC" 
+                            component={NfcScreen} 
+                            options = {{headerShown :false }}
+                         />
                          <Stack.Screen 
                             name="Login" 
                             component={LoginScreen} 

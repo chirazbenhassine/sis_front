@@ -11,6 +11,8 @@ export const AuthProvider = ({children}) =>{
     const [userInfo, setUserInfo] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [splashLoading, setSplashLoading] = useState(false);
+
+    const [errorLogin, setErrorLogin] = useState();
     
 /*Function Login*/
     const login = (username, password) => {
@@ -23,6 +25,8 @@ export const AuthProvider = ({children}) =>{
 
         axios.post(`${BASE_URL}/login`, qs.stringify(params))
         .then(res => {
+            setErrorLogin(null);
+
             let userInfo= res.data;
             console.log(userInfo);
             setUserInfo(userInfo);
@@ -31,20 +35,10 @@ export const AuthProvider = ({children}) =>{
             console.log(userInfo);
         })
         .catch(e =>{
+            setErrorLogin("Votre username ou votre mot de passe est erroné");
             console.log(`login_error ${e}`);
             setIsLoading(false);
         }); 
-/*
-        fetch('http://192.168.1.57:8080/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            },
-            body: qs.stringify(params)
-        }).then(response => response.json())
-        .catch(error => console.log('err',error)); //Add this
-
-        */
     };
 
     const logout = () => 
@@ -84,7 +78,8 @@ useEffect(() =>{
             userInfo,
             splashLoading,
             login,
-            logout
+            logout,
+            errorLogin
          }}>
             {children}
             </AuthContext.Provider>
