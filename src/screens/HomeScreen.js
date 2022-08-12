@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
-import { View, Text, Button, StyleSheet} from "react-native";
+import { View, Text, StyleSheet} from "react-native";
+import {Button} from 'react-native-paper';
+
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { AuthContext } from "../context/AuthContext";
 
@@ -12,10 +14,13 @@ const HomeScreen = () => {
             <Spinner visible={isLoading}/>
             <Text> Welcome {userInfo.data.nom} </Text>
             <Button 
-                title="Logout"
                 color="red"
+                mode="contained"
+                uppercase={false}
                 onPress={logout}
-            />    
+            >    
+            Logout
+            </Button>
         </View>
     );
 };
@@ -23,8 +28,7 @@ const styles = StyleSheet.create({
     container : {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'gray'
+        justifyContent: 'center'
     },
 });
 

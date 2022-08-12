@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet } from "react-native";
+import {Button} from 'react-native-paper';
 import Spinner from "react-native-loading-spinner-overlay/lib";
 import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ route, navigation }) => {
-    const [username, setUsername] =useState(null);
     const [password, setPassword] =useState(null);
 
     const {
@@ -18,6 +18,7 @@ const LoginScreen = ({ route, navigation }) => {
     return (
         <View style= {styles.container}>
             <Spinner visible={isLoading}/>
+            <Text style = {styles.textUsername}>{usernameNfc}</Text>
             <View style={styles.wrapper}>
                 {/*<TextInput 
                 style = {styles.input} 
@@ -28,15 +29,22 @@ const LoginScreen = ({ route, navigation }) => {
                 <TextInput 
                 style = {styles.input}
                 value = {password}
-                placeholder=" Enter password"
+                placeholder="Enter password"
                 onChangeText={text => setPassword(text)}
+                placeholderTextColor="#8E8E8E" 
                 secureTextEntry/>  
 
+   
+
                 <Button 
-                styleText ={styles.baseText} 
-                title="Login"
-                color="#BDB76B"
-                onPress={() => {login(usernameNfc, password)}}/>
+                    styleText ={styles.texteBouton} 
+                    
+                    mode="contained"
+                    color="#BDB76B"
+                    uppercase={false}
+                    onPress={() => {login(usernameNfc, password)}}>
+                    Login
+                </Button>
 
                 {errorLogin && <Text  style = {styles.msgErreur}>{errorLogin} </Text>}
                
@@ -48,11 +56,10 @@ const styles = StyleSheet.create({
     container : {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'gray'
+        justifyContent: 'center'
     },
     wrapper :{
-        width: '80%',
+        width: '80%'
     },
     input : {
         marginBottom: 12,
@@ -60,14 +67,20 @@ const styles = StyleSheet.create({
         borderColor: '#bbb',
         borderRadius: 5,
         paddingHorizontal: 14,
-        color: 'green'
+        color: 'black',
+
     },
-    baseText :{
+    texteBouton :{
         fontWeight: 'bold',
-      },
-      msgErreur :{
+        color: 'black'
+    },
+    textUsername :{
+        fontWeight: 'bold',
+        color: 'black'
+    },
+    msgErreur :{
         color: 'red',
-    }
+}
 });
 
 export default LoginScreen;

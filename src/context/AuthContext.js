@@ -22,7 +22,7 @@ export const AuthProvider = ({children}) =>{
             username,
             password
         }
-
+console.log(params)
         axios.post(`${BASE_URL}/login`, qs.stringify(params))
         .then(res => {
             setErrorLogin(null);

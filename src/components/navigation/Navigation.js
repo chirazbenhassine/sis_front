@@ -10,6 +10,7 @@ import HomeScreen from '../../screens/HomeScreen'
 import { AuthContext } from "../../context/AuthContext";
 import SplashScreen from "../../screens/SplashScreen";
 import NfcScreen from "../../screens/NfcScreen";
+import NfcPromptAndroid from "../nfc/NfcPromptAndroid";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ const Navigation = () => {
 
     return (
         <NavigationContainer>
+            <NfcPromptAndroid />
             <Stack.Navigator>
                 {splashLoading ? 
                  (
