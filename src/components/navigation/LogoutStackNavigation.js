@@ -6,7 +6,6 @@ import {scale} from '../../utils/scaling';
 const Stack = createNativeStackNavigator();
 
 export default function LogoutStackNavigation() {
-    //const { currentIndex } = state.avatar;
 
   
     let headerStyle = {

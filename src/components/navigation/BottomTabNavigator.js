@@ -4,16 +4,34 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomeStackNavigation from './HomeStackNavigation';
 import LogoutStackNavigation from './LogoutStackNavigation';
+import { Alert, TouchableOpacity } from 'react-native';
+import { AuthContext } from '../../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
+
+  const {logout} = React.useContext(AuthContext);
+  const showAlert = () => {
+    Alert.alert(
+      'Se déconnecter',
+      'Etes vous sûr de vouloir vous  déconnecter ?',
+      [
+        { text: 'NON', onPress: () => console.log('NO Pressed'), style: 'cancel' },
+        {
+          text: 'OUI', onPress: () => {
+            logout();
+          }
+        },
+      ]
+    );
+  }
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          console.log(route)
           if (route.name === 'home') {
             iconName = focused ? 'home' : 'home-outline';
           } /* else if (route.name === 'profil') {
@@ -38,7 +56,6 @@ export default function BottomTabNavigator() {
         name={'home'}
         component={HomeStackNavigation}
         options={{
-          //tabBarButton: () => null,
           tabBarVisible: true
         }}
       />
@@ -50,6 +67,9 @@ export default function BottomTabNavigator() {
       <Tab.Screen
         name={'logout'}
         component={LogoutStackNavigation}
+        options={{
+          tabBarButton: props => <TouchableOpacity {...props} onPress={showAlert} />
+        }}
       />
     </Tab.Navigator>
   );

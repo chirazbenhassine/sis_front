@@ -5,6 +5,7 @@ import HomeScreen from '../../screens/HomeScreen';
 import { scale } from '../../utils/scaling';
 
 import ConnectionStatus from '../../utils/components/connexionStatus'
+import PointeauxScreen from '../../screens/PointeauxScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,14 +30,28 @@ export default function HomeStackNavigation() {
           name="HOME"
           component={HomeScreen}
           options={{
-            title: 'Home',
+            title: 'User',
             animationTypeForReplace: 'push',
             headerShown: true,
             headerLeft: null,
             headerStyle: [headerStyle, { backgroundColor: MainBlue }],
             headerTitleStyle,
             headerTitleAlign: 'center',
-             headerRight: () => <ConnectionStatus />,
+             headerRight: () => <ConnectionStatus color={'white'} />,
+          }}
+        />
+        <Stack.Screen
+          name="POINTEAUX"
+          component={PointeauxScreen}
+          options={{
+            title: 'User',
+            animationTypeForReplace: 'push',
+            headerShown: true,
+            headerLeft: null,
+            headerStyle: [headerStyle, { backgroundColor: MainBlue }],
+            headerTitleStyle,
+            headerTitleAlign: 'center',
+             headerRight: () => <ConnectionStatus color={'white'} />,
           }}
         />
 

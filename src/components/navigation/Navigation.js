@@ -18,8 +18,6 @@ const Stack = createNativeStackNavigator();
 const Navigation = () => {
     const {userInfo, splashLoading} = useContext(AuthContext);
 
-    /*console.log("userInfo", userInfo?.toke?.access_token)*/
-
     return (
         <NavigationContainer>
             <NfcPromptAndroid />
