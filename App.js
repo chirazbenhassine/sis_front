@@ -7,7 +7,9 @@
  */
 
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import Navigation from './src/components/navigation/Navigation'
 import { AuthProvider } from './src/context/AuthContext';
 import './src/components/nfc/AppOutlets'
@@ -15,12 +17,23 @@ import './src/components/nfc/AppOutlets'
 const App = () => {
   return (
     <AuthProvider>
-      <StatusBar backgroundColor = "red" />
-      <Navigation />
+      <StatusBar barStyle="light-content" backgroundColor= '#011630'/>
+      <SafeAreaProvider style={styles.container}>
+        <Navigation />
+      </SafeAreaProvider>
     </AuthProvider>
   
   ); 
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  title: {
+    fontFamily: 'IndustryInc-Detail',
+    fontStyle: Platform.OS === 'ios' ? 'italic' : 'normal',
+  },
+});
 
 export default App;

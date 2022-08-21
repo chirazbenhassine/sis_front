@@ -6,11 +6,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
 import LoginScreen from '../../screens/LoginScreen'
-import HomeScreen from '../../screens/HomeScreen'
 import { AuthContext } from "../../context/AuthContext";
 import SplashScreen from "../../screens/SplashScreen";
 import NfcScreen from "../../screens/NfcScreen";
 import NfcPromptAndroid from "../nfc/NfcPromptAndroid";
+
+import BottomTabNavigator from './BottomTabNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,28 +23,29 @@ const Navigation = () => {
     return (
         <NavigationContainer>
             <NfcPromptAndroid />
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{headerShown: false}}>
                 {splashLoading ? 
                  (
                    <Stack.Screen 
                    name="Splash Screen" 
                    component = {SplashScreen} 
-                   options = {{ headerShown: false }}
                    /> 
                 ) : 
                 userInfo?.token?.access_token ? (
-                      <Stack.Screen name="Home" component = {HomeScreen} />
+                      //<Stack.Screen name="Home" component = {HomeScreen} />
+                      <Stack.Screen
+                            name="Home"
+                            component={BottomTabNavigator}
+                        />
                 ) : (
                     <>
                     <Stack.Screen 
                             name="TagNFC" 
                             component={NfcScreen} 
-                            options = {{headerShown :false }}
                          />
                          <Stack.Screen 
                             name="Login" 
                             component={LoginScreen} 
-                            options = {{headerShown :false }}
                          />
                     </>
                 )}

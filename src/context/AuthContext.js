@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import qs from "qs";
 import React, { createContext, useEffect, useState } from "react";
+import NetInfo from "@react-native-community/netinfo";
 import { BASE_URL } from "../config";
 
 export const AuthContext = createContext();
@@ -11,18 +12,31 @@ export const AuthProvider = ({children}) =>{
     const [userInfo, setUserInfo] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [splashLoading, setSplashLoading] = useState(false);
+    const [isConnected, setIsConnected] = useState(true)
 
     const [errorLogin, setErrorLogin] = useState();
+
+
+    useEffect(() => {
+        isLoggedIn();
+        const unsubscribe = NetInfo.addEventListener(state => {
+            console.log("Is connected?", state.isConnected);
+            setIsConnected(state.isConnected)    
+        });
+    
+        return () => {
+            unsubscribe();
+        } 
+    }, []);
     
 /*Function Login*/
     const login = (username, password) => {
         setIsLoading(true);
-
         const params = { 
             username,
             password
         }
-console.log(params)
+
         axios.post(`${BASE_URL}/login`, qs.stringify(params))
         .then(res => {
             setErrorLogin(null);
@@ -67,9 +81,6 @@ console.log(params)
 
     };
 
-useEffect(() =>{
-    isLoggedIn();
-}, []);
 
     return(
         <AuthContext.Provider
@@ -79,7 +90,8 @@ useEffect(() =>{
             splashLoading,
             login,
             logout,
-            errorLogin
+            errorLogin,
+            isConnected
          }}>
             {children}
             </AuthContext.Provider>
