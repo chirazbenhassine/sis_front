@@ -18,21 +18,11 @@ export const AuthProvider = ({children}) =>{
 
 
     useEffect(() => {
-        const user = {
-            "token": {
-                "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJJc2FhY2FiZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJodHRwOi8vMTkyLjE2OC4xLjU3OjgwODAvYXBpL2xvZ2luIiwiZXhwIjoxNjYyNzE0MjcyfQ.pdlscb0vsuKNAbmxrnm89zMlGVH0BOu25vVyuHMScrA",
-                "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJJc2FhY2FiZCIsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuNTc6ODA4MC9hcGkvbG9naW4iLCJleHAiOjE2NjI3MTQyNzJ9.jHhwy0MvyFZz6J19NfNXAP4KMTzR1bfI9dBJrCng5vQ"
-            },
-            "data": {
-                "nom": "Abdelli",
-                "prenom": "Isaac",
-                "username": "Isaacabd",
-                "roles": [
-                    "ROLE_USER"
-                ]
-            }
-        }
-        AsyncStorage.setItem('userInfo',JSON.stringify(user));
+        AsyncStorage.getItem('userInfo')
+            .then((value) => {
+            const userInfo = JSON.parse(value);
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + userInfo.token.access_token;
+            });
 
         isLoggedIn();
         const unsubscribe = NetInfo.addEventListener(state => {
