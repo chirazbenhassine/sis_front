@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getPointeaux } from '../redux/reducers/pointeaux.reducer'
+import { getPointeaux, postPointeaux } from '../redux/reducers/pointeaux.reducer'
 import { scale } from '../utils/scaling';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Card } from 'react-native-paper';
+import NfcProxy from "../components/nfc/NfcProxy";
+import { renderPayload } from "../components/nfc/Utils";
+import { Ndef } from "react-native-nfc-manager";
 
 
 const PointeauxScreen = () => {
 
-  const [pointeaux, setPointeaux] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const listPointeaux = useSelector(state => state.pointeau);
@@ -24,15 +27,47 @@ const PointeauxScreen = () => {
     initFetch()
   }, [initFetch])
 
-  const onPress = () => console.log("yeww")
+  readNdef = async() => {
+    let identifiantNFC
+
+    const tag = await NfcProxy.readTag();
+    if (tag) {
+      const ndefData =
+        Array.isArray(tag?.ndefMessage) && tag?.ndefMessage.length > 0
+        ? tag?.ndefMessage[0]
+        : null;
+            
+         if(ndefData) {
+          identifiantNFC = renderPayload(Ndef,ndefData)
+            console.log(identifiantNFC)
+
+            dispatch(postPointeaux({ name: identifiantNFC }))
+            .unwrap()
+            .then(data => {
+              console.log(data);
+             /*  setTutorial({
+                id: data.id,
+                title: data.title,
+                description: data.description,
+                published: data.published
+              });
+              setSubmitted(true); */ 
+            })
+            .catch(e => {
+              console.log(e);
+            });
+        } 
+    }
+
+  }
 
   return (
     <View style={styles.mainView}>
       <ScrollView style={styles.scrollView}>
         <Text style={styles.buttonText}>Gestion des pointeaux</Text>
         {listPointeaux && listPointeaux.map((data) =>
-          <TouchableOpacity style={{}} onPress={() => console.log('heeyyy: ', data.name)}>
-            <Card style={styles.list} key={data.id} >
+          <TouchableOpacity key={data.id}onPress={() => console.log('heeyyy: ', data.name)}>
+            <Card style={styles.list}  >
               <View style={styles.aaa}>
                 <Text style={styles.textList}>{data.name}</Text>
                 <Ionicons
@@ -49,7 +84,7 @@ const PointeauxScreen = () => {
 
       <View style={styles.parentView}>
         <TouchableOpacity
-          onPress={() => onPress()}
+          onPress={() => {readNdef()}}
           style={styles.validationButton}>
           <Ionicons
             name="add-outline"
@@ -58,6 +93,7 @@ const PointeauxScreen = () => {
           />
         </TouchableOpacity>
       </View>
+
     </View>
 
 

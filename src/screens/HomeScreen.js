@@ -52,10 +52,10 @@ const styles = StyleSheet.create({
         width: "100%",
       },
       buttonRondes: {
-        backgroundColor: "dodgerblue",
+        backgroundColor: "goldenrod",
       },
       buttonPointeaux: {
-        backgroundColor: "red",
+        backgroundColor: "mediumseagreen",
       }
 });
 

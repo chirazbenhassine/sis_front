@@ -31,9 +31,6 @@ const NfcScreen = ({ navigation }) => {
 
       }
 
-
-
-    
       return (
         <View style={styles.wrapper}>
       
