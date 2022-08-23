@@ -1,23 +1,22 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getPointeaux, postPointeaux } from '../redux/reducers/pointeaux.reducer'
-import { scale } from '../utils/scaling';
+import { getPointeaux, postPointeaux } from '../../redux/reducers/pointeaux.reducer'
+import { scale } from '../../utils/scaling';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Card } from 'react-native-paper';
-import NfcProxy from "../components/nfc/NfcProxy";
-import { renderPayload } from "../components/nfc/Utils";
+import NfcProxy from "../../components/nfc/NfcProxy";
+import { renderPayload } from "../../components/nfc/Utils";
 import { Ndef } from "react-native-nfc-manager";
 
 
-const PointeauxScreen = () => {
+const PointeauxScreen = ({navigation}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const listPointeaux = useSelector(state => state.pointeau);
   const dispatch = useDispatch();
-  console.log(listPointeaux)
 
   const initFetch = useCallback(() => {
     dispatch(getPointeaux());
@@ -44,14 +43,7 @@ const PointeauxScreen = () => {
             dispatch(postPointeaux({ name: identifiantNFC }))
             .unwrap()
             .then(data => {
-              console.log(data);
-             /*  setTutorial({
-                id: data.id,
-                title: data.title,
-                description: data.description,
-                published: data.published
-              });
-              setSubmitted(true); */ 
+              console.log('Post ointeau success');
             })
             .catch(e => {
               console.log(e);
@@ -64,11 +56,13 @@ const PointeauxScreen = () => {
   return (
     <View style={styles.mainView}>
       <ScrollView style={styles.scrollView}>
-        <Text style={styles.buttonText}>Gestion des pointeaux</Text>
+        <Text style={styles.titre}>Liste des pointeaux</Text>
         {listPointeaux && listPointeaux.map((data) =>
-          <TouchableOpacity key={data.id}onPress={() => console.log('heeyyy: ', data.name)}>
+          <TouchableOpacity key={data.id}onPress={() => navigation.navigate('POINTEAUX_DETAILS', {
+            data
+          })}>
             <Card style={styles.list}  >
-              <View style={styles.aaa}>
+              <View style={styles.deuxColonnes}>
                 <Text style={styles.textList}>{data.name}</Text>
                 <Ionicons
                   name="arrow-forward-outline"
@@ -82,7 +76,7 @@ const PointeauxScreen = () => {
 
       </ScrollView>
 
-      <View style={styles.parentView}>
+      <View style={styles.addCircle}>
         <TouchableOpacity
           onPress={() => {readNdef()}}
           style={styles.validationButton}>
@@ -101,7 +95,7 @@ const PointeauxScreen = () => {
 };
 const styles = StyleSheet.create({
   mainView: { flexDirection: 'row', flex: 2 },
-  parentView: {
+  addCircle: {
     alignSelf: 'flex-end',
     flex: 1,
     elevation: 3,
@@ -132,8 +126,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  buttonText: {
-    //textAlign: 'center',
+  titre: {
+    marginVertical: '2%',
     fontSize: scale(22),
     fontWeight: 'bold',
     width: "100%",
@@ -154,7 +148,7 @@ const styles = StyleSheet.create({
     color: 'black'
   },
 
-  aaa: {
+  deuxColonnes: {
     flex: 1,
     flexDirection: "row",
     justifyContent: 'space-between',

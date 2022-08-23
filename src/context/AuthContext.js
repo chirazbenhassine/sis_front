@@ -52,8 +52,6 @@ export const AuthProvider = ({children}) =>{
             setUserInfo(userInfo);
             AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
             setIsLoading(false);
-            console.log(userInfo);
-            console.log(userInfo.token.access_token)
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + userInfo.token.access_token;
         })
         .catch(e =>{

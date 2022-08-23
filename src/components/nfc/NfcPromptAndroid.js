@@ -69,7 +69,7 @@ function NfcPromptAndroid(props) {
             <Text style={styles.textNfc}>{message}</Text>
           </View>
 
-          <Button color="#BDB76B" uppercase={false} mode="contained" onPress={cancelNfcScan}>
+          <Button color="#f7c505" uppercase={false} mode="contained" onPress={cancelNfcScan}>
             Annuler
           </Button>
         </Animated.View>

@@ -21,13 +21,13 @@ const HomeScreen = ({navigation}) => {
                 style={[styles.button,styles.buttonPointeaux]}
                 onPress={onPress}
             >
-                <Text style={styles.buttonText}>Gestion des Pointeaux</Text>
+                <Text style={styles.buttonText}>Liste des Pointeaux</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={[styles.button,styles.buttonRondes]}
                 onPress={onPress}
             >
-                <Text style={styles.buttonText}>Gestion des rondes</Text>
+                <Text style={styles.buttonText}>Liste des rondes</Text>
             </TouchableOpacity>
         </View>
     );
@@ -35,7 +35,6 @@ const HomeScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     container : {
         flex: 1,
-
     },
     button: {
         alignItems: "center",

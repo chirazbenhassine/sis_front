@@ -3,7 +3,6 @@ import { BASE_URL } from "../config";
 
 
 export async function addPointeau(payload) {
-  console.log('postpost')
   let response = await axios.post(BASE_URL + '/pointeau', payload);
   return response.data;
 }
