@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { View, Text,TouchableOpacity,  StyleSheet} from "react-native";
-import {Button} from 'react-native-paper';
 import {scale} from '../utils/scaling';
 
 
@@ -9,9 +8,8 @@ import { AuthContext } from "../context/AuthContext";
 
 
 const HomeScreen = ({navigation}) => {
-    const {userInfo, isLoading} = useContext(AuthContext);
+    const {isLoading} = useContext(AuthContext);
 
-    const onPress = () => navigation.navigate('POINTEAUX');
 
     return (
         <View style= {styles.container}>
@@ -19,13 +17,13 @@ const HomeScreen = ({navigation}) => {
             
             <TouchableOpacity
                 style={[styles.button,styles.buttonPointeaux]}
-                onPress={onPress}
+                onPress={() => navigation.navigate('POINTEAUX')}
             >
                 <Text style={styles.buttonText}>Liste des Pointeaux</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={[styles.button,styles.buttonRondes]}
-                onPress={onPress}
+                onPress={() => navigation.navigate('RONDS')}
             >
                 <Text style={styles.buttonText}>Liste des rondes</Text>
             </TouchableOpacity>

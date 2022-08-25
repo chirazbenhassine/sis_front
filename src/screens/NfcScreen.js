@@ -34,7 +34,7 @@ const NfcScreen = ({ navigation }) => {
     <View style={styles.wrapper}>
 
       <View
-        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: -100 }}>
         <Image
           source={require('../../images/sis-logo.png')}
           style={{ width: 300, height: 200}}
@@ -46,7 +46,7 @@ const NfcScreen = ({ navigation }) => {
           uppercase={false}
           mode="contained"
           onPress={() => { readNdef() }}>
-          Veuillez scanner votre carte
+          Se connecter
         </Button>
 
       </View>

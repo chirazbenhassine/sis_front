@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal } from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getPointeaux, postPointeaux } from '../../redux/reducers/pointeaux.reducer'
 import { scale } from '../../utils/scaling';
@@ -10,11 +10,8 @@ import { renderPayload } from "../../components/nfc/Utils";
 import { Ndef } from "react-native-nfc-manager";
 
 
-const PointeauxScreen = ({navigation}) => {
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
-
+const PointeauxScreen = ({ navigation }) => {
+  
   const listPointeaux = useSelector(state => state.pointeau);
   const dispatch = useDispatch();
 
@@ -26,64 +23,66 @@ const PointeauxScreen = ({navigation}) => {
     initFetch()
   }, [initFetch])
 
-  readNdef = async() => {
+  readNdef = async () => {
     let identifiantNFC
 
     const tag = await NfcProxy.readTag();
     if (tag) {
       const ndefData =
         Array.isArray(tag?.ndefMessage) && tag?.ndefMessage.length > 0
-        ? tag?.ndefMessage[0]
-        : null;
-            
-         if(ndefData) {
-          identifiantNFC = renderPayload(Ndef,ndefData)
-            console.log(identifiantNFC)
+          ? tag?.ndefMessage[0]
+          : null;
 
-            dispatch(postPointeaux({ name: identifiantNFC }))
-            .unwrap()
-            .then(data => {
-              console.log('Post ointeau success');
-            })
-            .catch(e => {
-              console.log(e);
-            });
-        } 
+      if (ndefData) {
+        identifiantNFC = renderPayload(Ndef, ndefData)
+        console.log(identifiantNFC)
+
+        dispatch(postPointeaux({ name: identifiantNFC }))
+          .unwrap()
+          .then(data => {
+            console.log('Post pointeau success');
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      }
     }
 
   }
 
   return (
     <View style={styles.mainView}>
-      <ScrollView style={styles.scrollView}>
+      <View>
         <Text style={styles.titre}>Liste des pointeaux</Text>
-        {listPointeaux && listPointeaux.map((data) =>
-          <TouchableOpacity key={data.id}onPress={() => navigation.navigate('POINTEAUX_DETAILS', {
-            data
-          })}>
-            <Card style={styles.list}  >
-              <View style={styles.deuxColonnes}>
-                <Text style={styles.textList}>{data.name}</Text>
-                <Ionicons
-                  name="arrow-forward-outline"
-                  size={40}
-                  color={'#f7c505'}
-                />
-              </View>
-            </Card>
-          </TouchableOpacity>
-        )}
+        <ScrollView style={styles.scrollView}>
+          {listPointeaux && listPointeaux.map((data) =>
+            <TouchableOpacity key={data.id} onPress={() => navigation.navigate('POINTEAUX_DETAILS', {
+              data
+            })}>
+              <Card style={styles.list}  >
+                <View style={styles.deuxColonnes}>
+                  <Text style={styles.textList}>{data.name}</Text>
+                  <Ionicons
+                    name="arrow-forward-outline"
+                    size={40}
+                    color={'#025976'}
+                  />
+                </View>
+              </Card>
+            </TouchableOpacity>
+          )}
 
-      </ScrollView>
+        </ScrollView>
+      </View>
 
       <View style={styles.addCircle}>
         <TouchableOpacity
-          onPress={() => {readNdef()}}
+          onPress={() => { readNdef() }}
           style={styles.validationButton}>
           <Ionicons
             name="add-outline"
             size={40}
-            color={'#f7c505'}
+            color={'#FFF'}
           />
         </TouchableOpacity>
       </View>
@@ -94,13 +93,15 @@ const PointeauxScreen = ({navigation}) => {
   );
 };
 const styles = StyleSheet.create({
-  mainView: { flexDirection: 'row', flex: 2 },
+  mainView: { flex: 1 },
   addCircle: {
     alignSelf: 'flex-end',
     flex: 1,
     elevation: 3,
     alignItems: 'flex-end',
-    width: '100%'
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
   },
   scrollView: {
     width: '100%',
@@ -116,15 +117,10 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     backgroundColor: '#025976',
     borderRadius: 50,
-  },
-  container: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
   },
   titre: {
     marginVertical: '2%',

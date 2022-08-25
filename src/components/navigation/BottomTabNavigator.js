@@ -56,7 +56,8 @@ export default function BottomTabNavigator() {
         name={'home'}
         component={HomeStackNavigation}
         options={{
-          tabBarVisible: true
+          tabBarVisible: true,
+          title: 'Acceuil'
         }}
       />
      {/*  <Tab.Screen
@@ -68,6 +69,7 @@ export default function BottomTabNavigator() {
         name={'logout'}
         component={LogoutStackNavigation}
         options={{
+          title: 'Se déconnecter',
           tabBarButton: props => <TouchableOpacity {...props} onPress={showAlert} />
         }}
       />

@@ -1,14 +1,12 @@
 import React from "react";
-import { Text, View, StyleSheet, Alert } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
 
 const LogoutScreen = () => {
 
-
     return (
         <View style= {styles.container}>
             <Text style = {styles.textUsername}>Hello logout</Text>
-
         </View>
     );
 };

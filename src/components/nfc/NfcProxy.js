@@ -17,7 +17,7 @@ const withAndroidPrompt = (fn) => {
       if (Platform.OS === 'android') {
         getOutlet('androidPrompt').update({
           visible: true,
-          message: 'Veuillez scanner la carte NFC',
+          message: 'Veuillez scanner',
         });
       }
 
@@ -26,7 +26,7 @@ const withAndroidPrompt = (fn) => {
       if (Platform.OS === 'android') {
         getOutlet('androidPrompt').update({
           visible: true,
-          message: 'Completed',
+          message: 'Scan ok',
         });
       }
 

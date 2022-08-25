@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { addPointeau, getListPointeaux } from "../../api/pointeaux.service";
+import { addPointeau, getListPointeaux, updatePointeau, deletePointeau } from "../../api/pointeaux.service";
 
 const initialState = []
 
@@ -19,18 +19,43 @@ export const postPointeaux = createAsyncThunk(
   }
 );
 
+export const updatePointeaux = createAsyncThunk(
+  "pointeau/update",
+  async (data) => {
+     const res = await updatePointeau(data);
+    return res;
+  }
+);
+
+export const deletePointeaux = createAsyncThunk(
+  "pointeau/delete",
+  async (id) => {
+      await deletePointeau(id);
+    return id;
+  }
+);
+
 export const pointeauSlice = createSlice({
   name: 'counter',
   initialState,
   extraReducers: {
     [getPointeaux.fulfilled]: (state, action) => {
-      console.log("GET",action)
       return [...action.payload]
     },
     [postPointeaux.fulfilled]: (state, action) => {
-      console.log("POST",action)
       state.push(action.payload);
-    }
+    },
+    [updatePointeaux.fulfilled]: (state, action) => {
+      const index = state.findIndex(pointeau => pointeau.id === action.payload.id);
+      state[index] = {
+        ...state[index],
+        ...action.payload,
+      };
+    },
+    [deletePointeaux.fulfilled]: (state, action) => {
+      let index = state.findIndex(({ id }) => id === action.payload.id);
+      state.splice(index, 1);
+    },
   },
 })
 
